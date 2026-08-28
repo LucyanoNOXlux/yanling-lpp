@@ -1,7 +1,7 @@
 ---
 name: 言灵LPP
 description: 语言心理模式分析——从文本中推断人格特质、依恋风格、情绪模式。四步流程：语言模式扫描→ND校准→场景定位→心理画像+评分报告。中文名「言灵」。触发词：分析语言特征、心理画像、看穿一个人、措辞分析、从说话看性格、语言心理学分析。子技能：lpp-vad（情绪剖面）、lpp-register（语域）、lpp-lcs（语言复杂度）、lpp-glm（世代语言）、lpp-geo（地域文化）、lpp-gle（性别化语言）、lpp-pcs（职业风格）、lpp-dark（暗黑人格）、lpp-cogstyle（认知风格）、lpp-lsm（语言风格匹配度·人际维度·双文本）。
-version: 2.5
+version: 2.6
 author: Luci逻辑喵
 license: CC BY-NC-SA 4.0
 tags: [心理分析, 人格分析, 语言分析, AI工具]
@@ -142,6 +142,18 @@ Step 1 扫描阶段的检查清单——**不打分、不做心理映射**，只
 
 详细观察指南见 `references/indicators.md`。理论背景见 `references/framework.md`。
 
+### 脚本化测量（v2.6 新增 · d_scan.py）
+
+可计算的 D 维度由脚本测量，LLM 观察聚焦不可计算维度——扫描层从"目测"升级为"测量 + 观察"双层：
+
+```bash
+python _Skills/yanling-lpp/scripts/d_scan.py -i 文本.txt --json   # 21 个 D 维度测量值
+python _Skills/yanling-lpp/scripts/d_scan.py --multi f1 f2 f3      # 面具厚度指数（跨语境变异度）
+```
+
+脚本覆盖：D1 标点 / D2 断句 / D3 段落 / D4 句长 / D6 语气词 / D8 人称 / D9 VAD 情绪 / D10 绝对化 / D11 否定 / D12 因果 / D15 正式度 / D18 时间锚 / D21 节奏 / D22 填充词 / D24 不确定性 / D25 话语标记 / D30 情态 / D33 提问 / D37 动作-状态动词 + D_ellipsis。
+**流程**：Step 1 先跑 `d_scan.py` 拿数值（JSON 入上下文），LLM 基于数值做 D 记录，再对不可计算维度（D5/D7/D13/D16/D17/D19/D20/D23/D26-29/D31-40）补 LLM 观察。脚本输出标注 △ 探索性。
+
 ## Step 1.5 神经多样性校准（ND层）
 
 ND 层的任务不是诊断神经类型，而是识别哪些语言模式可能源于神经类型的认知处理差异而非人格特质。
@@ -170,7 +182,7 @@ ND 层的任务不是诊断神经类型，而是识别哪些语言模式可能�
 | ND5↑ | I↘ | I（才干） | 上调 1 分 |
 | ND6↑ | A↘ | A（行事风格） | 上调 1 分 |
 
-完整校准规则（文化基线、ND↔ND 冲突）见 `references/framework.md`。
+完整校准规则（文化基线、ND↔ND 冲突）见 `references/framework.md`；**调节量依据/证据等级/默认值见 `references/nd-calibration.md`（v2.6 新增，△ 探索性）**。
 
 ## Step 2 定位工具：46 表达场景光谱
 
@@ -244,6 +256,7 @@ ND 层的任务不是诊断神经类型，而是识别哪些语言模式可能�
 - `references/scenes.md` — 46 表达场景光谱 + 人格映射表
 - `references/vad-d9plus.md` — VAD 情绪剖面详细指南（lpp-vad 理论参考）
 - `references/lsm-zh.md` — 中文功能词表（lpp-lsm 探索性词表）
+- `references/nd-calibration.md` — ND confound 调节量依据（证据等级/默认值，v2.6）
 
 ## 诚实边界与局限
 
@@ -257,4 +270,4 @@ ND 层的任务不是诊断神经类型，而是识别哪些语言模式可能�
 ---
 
 **作者：Luci逻辑喵** | 言灵LPP · Linguistic Psychological Pattern
-许可协议：CC BY-NC-SA 4.0 | 最后更新：2026-08-27（v2.5：新增 lpp-lsm 语言风格匹配度，双文本人际维度子技能，10 子技能）
+许可协议：CC BY-NC-SA 4.0 | 最后更新：2026-08-28（v2.6：D 维度脚本化 d_scan.py + ND 调节量依据 nd-calibration.md + dark 词表扩充，10 子技能）
