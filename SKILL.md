@@ -67,6 +67,8 @@ Step 4: 生成双面报告（Part 1 心理画像 + Part 2 评分与解释）
 
 校准公式：`D_n 校正值 = D_n 原始值 - 语域基线偏移(n)`
 
+> **实测基线**：`references/rcl-baselines.md` 提供 4 类文体（正式写作 / 意识流日记 / 社交媒体 / 虚构创作）的批量扫描均值 v1.0，可作为基线偏移的实证起点（替换纯定性区间）。样本仍小（n=7），聊天 / 角色扮演暂缺样本。
+
 ### 文体基线校准表（RCL 子表）
 
 不同文体在关键 D 维度上的基线存在系统性差异：
@@ -223,7 +225,7 @@ ND 层的任务不是诊断神经类型，而是识别哪些语言模式可能�
 
 - **依恋风格**：从关系场景簇归纳（焦虑型/回避型/安全型）
 - **面具厚度指数**：基于 D15/D8/D6/D25/D1 的跨语境对比
-- **置信度综合指数**：样本量 × 场景命中率 × 一致性 × 离散度 × 面具厚度 × ND confound
+- **置信度综合指数（CI）**：六因子加权（样本量 S / 场景命中率 H / 跨文本一致性 C / 面具厚度折减 M / ND confound 校准 N / 语域覆盖 R）→ 0-100 分 → 映射 ■强/●中/▲弱/△探索 四级措辞纪律。算法与 `d_scan.py --multi` 输出直接挂钩，详见 `references/confidence.md`（v2.6 新增，△ 探索性）。
 - **暗黑人格** → 加载 `lpp-dark`
 - **GLE 性别化语言表达** → 加载 `lpp-gle`
 - **PCS 职业沟通风格** → 加载 `lpp-pcs`
@@ -257,6 +259,8 @@ ND 层的任务不是诊断神经类型，而是识别哪些语言模式可能�
 - `references/vad-d9plus.md` — VAD 情绪剖面详细指南（lpp-vad 理论参考）
 - `references/lsm-zh.md` — 中文功能词表（lpp-lsm 探索性词表）
 - `references/nd-calibration.md` — ND confound 调节量依据（证据等级/默认值，v2.6）
+- `references/rcl-baselines.md` — RCL 实测文体基线（4 文体批量扫描均值 v1.0，△ 探索性）
+- `references/confidence.md` — 置信度综合指数算法（六因子 → 0-100 → 四级措辞纪律，△ 探索性）
 
 ## 诚实边界与局限
 
@@ -270,4 +274,4 @@ ND 层的任务不是诊断神经类型，而是识别哪些语言模式可能�
 ---
 
 **作者：Luci逻辑喵** | 言灵LPP · Linguistic Psychological Pattern
-许可协议：CC BY-NC-SA 4.0 | 最后更新：2026-08-28（v2.6：D 维度脚本化 d_scan.py + ND 调节量依据 nd-calibration.md + dark 词表扩充，10 子技能）
+许可协议：CC BY-NC-SA 4.0 | 最后更新：2026-08-29（v2.6 补：置信度指数算法 confidence.md + RCL 实测基线 rcl-baselines.md；D 维度脚本化 d_scan.py + ND 调节量依据 + dark 词表扩充，10 子技能）
